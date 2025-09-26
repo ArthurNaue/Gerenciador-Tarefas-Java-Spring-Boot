@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Tarefas Cadastradas</h1>
+
+        <!-- Filtros -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Filtros</h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/templates/listar}" method="get">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" th:value="${titulo}" placeholder="Buscar pelo título">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="responsavel" class="form-label">Responsável</label>
+                            <input type="text" class="form-control" id="responsavel" name="responsavel" th:value="${responsavel}" placeholder="Buscar pelo responsável">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="">Todas</option>
+                                <option th:each="s : ${listaStatus}" th:value="${s}" th:text="${s}" th:selected="${s == status}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="prioridade" class="form-label">Prioridade</label>
+                            <select class="form-select" id="prioridade" name="prioridade">
+                                <option value="">Todas</option>
+                                <option th:each="p : ${listaPrioridade}" th:value="${p}" th:text="${p}" th:selected="${p == prioridade}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-dark">Pesquisar</button>
+                        <a class="btn btn-outline-dark" th:href="@{/templates/listar}">Limpar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Tarefas -->
+        <ul class="list-unstyled">
+            <div th:if="${sucesso != null}">
+                <p th:text="${sucesso}"></p>
+            </div>
+            <li class="mb-3" th:each="tarefa : ${tarefas}">
+                <div class="border p-3 mb-2">
+                    <strong th:text="${tarefa.titulo}">Título</strong> 
+                    - <span th:text="${tarefa.descricao}">Descrição</span>
+                    - <span th:text="${tarefa.prioridade}">Prioridade</span>
+                    - <span th:text="${tarefa.status}">Status</span>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <a th:href="@{'/templates/' + ${tarefa.id} + '/editar'}" class="btn btn-link">Editar</a>
+                        <a th:href="@{'/templates/' + ${tarefa.id} + '/associar-categoria'}" class="btn btn-link">Associar Categoria</a>
+                        <form th:action="@{'/templates/' + ${tarefa.id} + '/excluir'}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-link" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

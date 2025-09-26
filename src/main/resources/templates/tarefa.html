@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar nova tarefa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Nova Tarefa</h1>
+        <form th:action="@{/templates/salvar}" method="post" th:object="${tarefa}">
+            <div th:if="${erros != null}" class="alert alert-danger">
+                <p th:text="${erros}"></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" th:field="*{titulo}" id="titulo" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea th:field="*{descricao}" id="descricao" rows="3" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="responsavel" class="form-label">Responsável</label>
+                <input type="text" th:field="*{responsavel}" id="responsavel" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="prioridade" class="form-label">Prioridade</label>
+                <select th:field="*{prioridade}" id="prioridade" class="form-select">
+                    <option th:each="p : ${prioridades}" th:value="${p}" th:text="${p}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select th:field="*{status}" id="status" class="form-select">
+                    <option th:each="s : ${listaStatus}" th:value="${s}" th:text="${s}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="dataLimite" class="form-label">Data Limite</label>
+                <input type="date" th:field="*{dataLimite}" id="dataLimite" class="form-control">
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-dark">Salvar</button>
+                <a href="/templates/listar" class="btn btn-outline-dark">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

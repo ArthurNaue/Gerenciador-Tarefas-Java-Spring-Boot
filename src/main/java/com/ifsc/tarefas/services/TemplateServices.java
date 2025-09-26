@@ -38,7 +38,7 @@ public class TemplateServices
         this.categoriaRepository = categoriaRepository;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/listar_tarefa")
     String listarTarefas
     (
         Model model, 
@@ -105,7 +105,7 @@ public class TemplateServices
         model.addAttribute("responsavel", responsavel);
         model.addAttribute("prioridade", prioridade);
 
-        return "lista";
+        return "listar_tarefa";
     }
 
     @GetMapping("/nova-tarefa")
@@ -138,14 +138,14 @@ public class TemplateServices
         ra.addFlashAttribute("sucesso", "Tarefa salva com sucesso!");
 
         tarefaRepository.save(tarefa);
-        return "redirect:/templates/listar";
+        return "redirect:/templates/listar_tarefa";
     }
 
     @PostMapping("/{id}/excluir")
     String excluir(@PathVariable Long id) 
     {
         tarefaRepository.deleteById(id);
-        return "redirect:/templates/listar";
+        return "redirect:/templates/listar_tarefa";
     }
 
     @GetMapping("/{id}/editar")
@@ -154,7 +154,7 @@ public class TemplateServices
         var tarefa = tarefaRepository.findById(id).orElse(null);
         if (tarefa == null) 
         {
-            return "redirect:/templates/listar";
+            return "redirect:/templates/listar_tarefa";
         }
         model.addAttribute("tarefa", tarefa);
         model.addAttribute("prioridades", Prioridade.values());
@@ -185,11 +185,11 @@ public class TemplateServices
 
         if (tarefa.isEmpty() || categoria.isEmpty()) 
         {
-            return "redirect:/templates/listar";
+            return "redirect:/templates/listar_tarefa";
         }
 
         tarefa.get().getCategorias().add(categoria.get());
         tarefaRepository.save(tarefa.get());
-        return "redirect:/templates/listar";
+        return "redirect:/templates/listar_tarefa";
     }
 }

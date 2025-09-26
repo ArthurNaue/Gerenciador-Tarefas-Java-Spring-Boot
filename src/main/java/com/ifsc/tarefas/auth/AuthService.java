@@ -59,11 +59,11 @@ public class AuthService
             cookie.setPath("/");
             response.addCookie(cookie);
 
-            String target = (redirect == null || redirect.isBlank()) ? "/templates/listar" : redirect;
+            String target = (redirect == null || redirect.isBlank()) ? "/templates/listar_tarefa" : redirect;
 
             if(target.contains("://"))
             {
-                target = "/templates/listar";
+                target = "/templates/listar_tarefa";
             }
 
             if(!target.startsWith("/")) 
